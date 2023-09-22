@@ -1,10 +1,3 @@
-// add event listsners for the buttons
-// when one is pressed
-// display it in the player pic
-// and choose a random for enemy
-// and display it for the enemy
-// increase score according to that
-
 let rock = document.querySelector("#rock");
 let paper = document.querySelector("#paper");
 let scissors = document.querySelector("#scissors");
@@ -16,12 +9,42 @@ let scoreEnemy = document.querySelector("#enemy-score");
 let increaseP = 1;
 let increaseE = 1;
 
+function clickHandler() {
+    chosenPlayer.src = this.src;
+    game();
+}
+
+options.forEach(element => {
+    element.addEventListener(`click`, clickHandler)    
+});
+
+function scoreCheck() {
+    if(increaseP > 5) {
+        setTimeout(function () {
+            alert('You won!');
+          }, 0);
+        options.forEach(element => {
+            element.removeEventListener("click", clickHandler);
+        });
+    }
+    else if(increaseE > 5) {
+        setTimeout(function () {
+            alert('You Lost!');
+          }, 0);
+        options.forEach(element => {
+            element.removeEventListener("click", clickHandler);
+        });
+    }
+}
+
 function playerIncrease() {
     scorePlayer.innerHTML = increaseP++;
+    scoreCheck();
 }
 
 function enemyIncrease() {
     scoreEnemy.innerHTML = increaseE++; 
+    scoreCheck();
 }
 
 function game() {
@@ -45,10 +68,3 @@ function game() {
         enemyIncrease();
     }
 }
-
-options.forEach(element => {
-    element.addEventListener(`click`, ()=>{
-            chosenPlayer.src = element.src;
-            game();
-    })    
-});
